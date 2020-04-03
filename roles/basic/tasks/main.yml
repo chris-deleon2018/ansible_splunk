@@ -1,0 +1,2 @@
+- name: "Installing Net-tools"
+  yum: pkg=net-tools state=installed

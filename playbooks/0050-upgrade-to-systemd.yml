@@ -1,0 +1,7 @@
+---
+# This play book upgrades Splunkd to systemd
+
+- name: "Upgrade splunkd to systemd - SH"
+  hosts: splunk-sh
+  roles:
+    - search_head
