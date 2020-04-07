@@ -1,9 +1,9 @@
 [splunk_servers]
-192.168.0.154
-192.168.0.152
+xxx.xxx.xxx.xxx
+xxx.xxx.xxx.xxx
 
 [splunk-idx2]
-192.168.0.154
+xxx.xxx.xxx.xxx
 
 [splunk-sh]
-192.168.0.152
+xxx.xxx.xxx.xxx
