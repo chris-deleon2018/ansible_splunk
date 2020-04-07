@@ -1,0 +1,18 @@
+---
+# Series of tasks to upgrade from Splunkd to systemd
+
+- name: "Stop Splunkd service"
+  shell: /opt/splunk/bin/splunk stop
+
+- name: "Disable start at boot"
+  shell: /opt/splunk/bin/splunk disable boot-start
+
+- name: "Convert Splunkd to systemd"
+  shell: /opt/splunk/bin/splunk enable boot-start -systemd-managed 1 -user splunk
+
+- name: "Start Splunk using systemd"
+  shell: /opt/splunk/bin/splunk start
+
+- name: "Verify Splunk is running as systemd service"
+  service: name=Splunkd.service state=started
+

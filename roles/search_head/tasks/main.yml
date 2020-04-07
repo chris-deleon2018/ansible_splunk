@@ -1,18 +1,11 @@
 ---
-# Series of tasks to upgrade from Splunkd to systemd
+# Series of tasks to upgrade/downgrade Splunkd to systemd
 
-- name: "Stop Splunkd service"
-  shell: /opt/splunk/bin/splunk stop
+- include_tasks: convert_to_systemd.yml
+  tags: upgrade
 
-- name: "Disable start at boot"
-  shell: /opt/splunk/bin/splunk disable boot-start
+- include_tasks: unit_file.yml
+  tags: upgrade
 
-- name: "Convert Splunkd to systemd"
-  shell: /opt/splunk/bin/splunk enable boot-start -systemd-managed 1 -user splunk
-
-- name: "Start Splunk using systemd"
-  shell: /opt/splunk/bin/splunk start
-
-- name: "Verify Splunk is running as systemd service"
-  service: name=Splunkd.service state=started
-
+- include_tasks: convert_to_splunkd.yml
+  tags: downgrade
