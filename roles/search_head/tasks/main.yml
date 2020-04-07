@@ -2,10 +2,14 @@
 # Series of tasks to upgrade/downgrade Splunkd to systemd
 
 - include_tasks: convert_to_systemd.yml
-  tags: upgrade
+  tags: 
+    - upgrade
 
 - include_tasks: unit_file.yml
-  tags: upgrade
+  tags:
+    - upgrade
+    - unit_file
 
 - include_tasks: convert_to_splunkd.yml
-  tags: downgrade
+  tags:
+    - downgrade

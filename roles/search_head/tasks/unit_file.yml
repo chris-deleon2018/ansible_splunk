@@ -1,0 +1,60 @@
+---
+# Series of tasks to ensure Splunkd unit file is set correctly
+
+- name: Ensure Type is set
+  lineinfile:
+    path: /etc/systemd/system/Splunkd.service
+    regexp: '^Type='
+    insertafter: '\[Service\]'
+    line: Type=simple
+
+- name: Ensure Restart is set
+  lineinfile:
+    path: /etc/systemd/system/Splunkd.service
+    regexp: '^Restart='
+    insertafter: '\[Service\]'
+    line: Restart=always
+
+- name: Ensure ExecStart is set
+  lineinfile:
+    path: /etc/systemd/system/Splunkd.service
+    regexp: '^ExecStart='
+    insertafter: '\[Service\]'
+    line: ExecStart=/opt/splunk/bin/splunk _internal_launch_under_systemd
+
+- name: Ensure KillMode is set
+  lineinfile:
+    path: /etc/systemd/system/Splunkd.service
+    regexp: '^KillMode='
+    insertafter: '\[Service\]'
+    line: KillMode=mixed
+
+- name: Ensure KillSignal is set
+  lineinfile:
+    path: /etc/systemd/system/Splunkd.service
+    regexp: '^KillSignal='
+    insertafter: '\[Service\]'
+    line: KillSignal=SIGINT
+
+- name: Ensure TimeoutStopSec is set
+  lineinfile:
+    path: /etc/systemd/system/Splunkd.service
+    regexp: '^TimeoutStopSec='
+    insertafter: '\[Service\]'
+    line: TimeoutStopSec=10min
+
+- name: Ensure Delegate is set
+  lineinfile:
+    path: /etc/systemd/system/Splunkd.service
+    regexp: '^Delegate='
+    insertafter: '\[Service\]'
+    line: Delegate=true
+
+- name: Reload unit file - systemctl daemon-reload
+  shell: systemctl daemon-reload
+
+- name: Restart Splunk - reload unit file changes
+  shell: /opt/splunk/bin/splunk restart
+
+- name: Verify Splunk is running
+  service: name=Splunkd.service state=started
