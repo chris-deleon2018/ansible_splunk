@@ -1,0 +1,15 @@
+---
+# Series of tasks to convert Splunkd to systemd
+
+- name: "Stopping Splunk"
+  shell: "/opt/splunk/bin/splunk stop"
+
+- include_tasks: convert_to_systemd.yml
+
+- include_tasks: unit_file.yml
+
+- name: Restart Splunk - reload unit file changes
+  shell: /opt/splunk/bin/splunk restart
+
+- name: Verify Splunk is running
+  service: name=Splunkd.service state=started

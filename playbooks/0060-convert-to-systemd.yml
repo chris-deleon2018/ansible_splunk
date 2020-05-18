@@ -1,0 +1,8 @@
+---
+# This play book converts splunk to systemd
+
+- name: "Convert Splunk to systemd"
+  hosts: splunk-sh
+  become: true
+  roles:
+    - splunk_convert_to_systemd
