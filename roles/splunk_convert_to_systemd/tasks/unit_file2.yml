@@ -1,0 +1,32 @@
+---
+# Series of tasks to ensure Splunkd unit file is set correctly
+
+- name: Copy Templated Unit File - Splunkd
+  template:
+    src: template/Splunkd_unit_file
+    dest: /etc/systemd/system/Splunkd.service
+    owner: root
+    group: root
+    mode: '0700'
+  tags:
+    - unit_file
+
+- name: Get MemoryLimit
+  shell: "free -b | awk '/Mem:/ {print $2}'"
+  register: memtotal_bytes
+  tags:
+    - unit_file
+
+- name: Set MemoryLimit - Unit File
+  lineinfile:
+    path: /etc/systemd/system/Splunkd.service
+    insertafter: 'CPUShares=1024'
+    line: MemoryLimit={{ memtotal_bytes.stdout }}
+  tags:
+    - unit_file 
+
+- name: Reload unit file - systemctl daemon-reload
+  systemd:
+    daemon_reload: yes
+  tags:
+    - unit_file
